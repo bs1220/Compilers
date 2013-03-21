@@ -51,7 +51,7 @@ void printAst(tree *node, int nestLevel) {
    	else if (node->nodeKind == 29)
       		printf("%s: %c\n", nodeNames[node->nodeKind], node->val);
    	else if (node->nodeKind == 28)
-      		printf("%s: %s\n", nodeNames[node->nodeKind], symbolTable[node->val]->string);
+		printf("%s: %d\n", nodeNames[node->nodeKind], node->val);
    	else if (node->nodeKind == 23 || node->nodeKind == 21 || node->nodeKind == 19)
       		printf("%s :%s\n", nodeNames[node->nodeKind], opNames[node->val]);
 
@@ -61,7 +61,7 @@ void printAst(tree *node, int nestLevel) {
   	int i, j;
 
   	for (i = 0; i < node->numChildren; i++)  {
-    		for (j = 0; j < nestLevel; j++) 
+    		for (j = 0; j < nestLevel; j++)
       			printf("\t");
     		printAst(getChild(node, i), nestLevel + 1);
   	}

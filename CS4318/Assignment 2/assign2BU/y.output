@@ -1,1392 +1,1516 @@
-   0  $accept : program $end
+Terminals unused in grammar
 
-   1  program : declList
+   ILLEGAL_TOK
+   ERROR
 
-   2  declList : decl
-   3           | declList decl
 
-   4  decl : varDecl
-   5       | funDecl
+Grammar
 
-   6  $$1 :
+    0 $accept: program $end
 
-   7  varDecl : typeSpecifier ID LSQ_BRKT $$1 INTCONST RSQ_BRKT SEMICLN
-   8          | typeSpecifier ID SEMICLN
+    1 program: declList
 
-   9  typeSpecifier : KWD_INT
-  10                | KWD_CHAR
-  11                | KWD_VOID
-  12                | KWD_STRING
+    2 declList: decl
+    3         | declList decl
 
-  13  $$2 :
+    4 decl: varDecl
+    5     | funDecl
 
-  14  funDecl : typeSpecifier ID LPAREN $$2 formalDeclList RPAREN funBody
+    6 $@1: /* empty */
 
-  15  $$3 :
+    7 varDecl: typeSpecifier ID LSQ_BRKT $@1 INTCONST RSQ_BRKT SEMICLN
+    8        | typeSpecifier ID SEMICLN
 
-  16  funDecl : typeSpecifier ID LPAREN RPAREN $$3 funBody
+    9 typeSpecifier: KWD_INT
+   10              | KWD_CHAR
+   11              | KWD_VOID
+   12              | KWD_STRING
 
-  17  formalDeclList : formalDecl
-  18                 | formalDecl COMMA formalDeclList
+   13 $@2: /* empty */
 
-  19  formalDecl : typeSpecifier ID
-  20             | typeSpecifier ID LSQ_BRKT RSQ_BRKT
+   14 funDecl: typeSpecifier ID LPAREN $@2 formalDeclList RPAREN funBody
 
-  21  funBody : LCRLY_BRKT localDeclList statementList RCRLY_BRKT
+   15 $@3: /* empty */
 
-  22  localDeclList :
-  23                | varDecl localDeclList
+   16 funDecl: typeSpecifier ID LPAREN RPAREN $@3 funBody
 
-  24  statementList :
-  25                | statement statementList
+   17 formalDeclList: formalDecl
+   18               | formalDecl COMMA formalDeclList
 
-  26  statement : compoundStmt
-  27            | assignStmt
-  28            | condStmt
-  29            | loopStmt
-  30            | returnStmt
+   19 formalDecl: typeSpecifier ID
+   20           | typeSpecifier ID LSQ_BRKT RSQ_BRKT
 
-  31  $$4 :
+   21 funBody: LCRLY_BRKT localDeclList statementList RCRLY_BRKT
 
-  32  $$5 :
+   22 localDeclList: /* empty */
+   23              | varDecl localDeclList
 
-  33  compoundStmt : LCRLY_BRKT $$4 statementList $$5 RCRLY_BRKT
+   24 statementList: /* empty */
+   25              | statement statementList
 
-  34  assignStmt : var OPER_ASGN expression SEMICLN
-  35             | expression SEMICLN
+   26 statement: compoundStmt
+   27          | assignStmt
+   28          | condStmt
+   29          | loopStmt
+   30          | returnStmt
 
-  36  condStmt : KWD_IF LPAREN expression RPAREN statement
-  37           | KWD_IF LPAREN expression RPAREN statement KWD_ELSE statement
+   31 $@4: /* empty */
 
-  38  loopStmt : KWD_WHILE LPAREN expression RPAREN statement
+   32 $@5: /* empty */
 
-  39  returnStmt : KWD_RETURN SEMICLN
-  40             | KWD_RETURN expression SEMICLN
+   33 compoundStmt: LCRLY_BRKT $@4 statementList $@5 RCRLY_BRKT
 
-  41  var : ID
+   34 assignStmt: var OPER_ASGN expression SEMICLN
+   35           | expression SEMICLN
 
-  42  $$6 :
+   36 condStmt: KWD_IF LPAREN expression RPAREN statement
+   37         | KWD_IF LPAREN expression RPAREN statement KWD_ELSE statement
 
-  43  var : ID LSQ_BRKT $$6 addExpr RSQ_BRKT
+   38 loopStmt: KWD_WHILE LPAREN expression RPAREN statement
 
-  44  expression : addExpr
-  45             | expression relop addExpr
+   39 returnStmt: KWD_RETURN SEMICLN
+   40           | KWD_RETURN expression SEMICLN
 
-  46  relop : OPER_GTE
-  47        | OPER_GT
-  48        | OPER_LT
-  49        | OPER_LTE
-  50        | OPER_EQ
-  51        | OPER_NEQ
+   41 var: ID
 
-  52  addExpr : term
-  53          | addExpr addop term
+   42 $@6: /* empty */
 
-  54  addop : OPER_ADD
-  55        | OPER_SUB
+   43 var: ID LSQ_BRKT $@6 addExpr RSQ_BRKT
 
-  56  term : factor
-  57       | term mulop factor
+   44 expression: addExpr
+   45           | expression relop addExpr
 
-  58  mulop : OPER_MUL
-  59        | OPER_DIV
+   46 relop: OPER_GTE
+   47      | OPER_GT
+   48      | OPER_LT
+   49      | OPER_LTE
+   50      | OPER_EQ
+   51      | OPER_NEQ
 
-  60  factor : LPAREN expression RPAREN
-  61         | var
-  62         | funcCallExpr
-  63         | INTCONST
-  64         | CHARCONST
-  65         | STRCONST
+   52 addExpr: term
+   53        | addExpr addop term
 
-  66  funcCallExpr : ID LPAREN argList RPAREN
-  67               | ID LPAREN RPAREN
+   54 addop: OPER_ADD
+   55      | OPER_SUB
 
-  68  argList : expression
-  69          | argList COMMA expression
-
+   56 term: factor
+   57     | term mulop factor
+
+   58 mulop: OPER_MUL
+   59      | OPER_DIV
+
+   60 factor: LPAREN expression RPAREN
+   61       | var
+   62       | funcCallExpr
+   63       | INTCONST
+   64       | CHARCONST
+   65       | STRCONST
+
+   66 $@7: /* empty */
+
+   67 funcCallExpr: ID LPAREN $@7 argList RPAREN
+   68             | ID LPAREN RPAREN
+
+   69 argList: expression
+   70        | argList COMMA expression
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+ID (258) 7 8 14 16 19 20 41 43 67 68
+INTCONST (259) 7 63
+CHARCONST (260) 64
+STRCONST (261) 65
+KWD_IF (262) 36 37
+KWD_ELSE (263) 37
+KWD_WHILE (264) 38
+KWD_INT (265) 9
+KWD_STRING (266) 12
+KWD_CHAR (267) 10
+KWD_RETURN (268) 39 40
+KWD_VOID (269) 11
+OPER_ADD (270) 54
+OPER_SUB (271) 55
+OPER_MUL (272) 58
+OPER_DIV (273) 59
+OPER_LT (274) 48
+OPER_GT (275) 47
+OPER_GTE (276) 46
+OPER_LTE (277) 49
+OPER_EQ (278) 50
+OPER_NEQ (279) 51
+OPER_ASGN (280) 34
+LSQ_BRKT (281) 7 20 43
+RSQ_BRKT (282) 7 20 43
+LCRLY_BRKT (283) 21 33
+RCRLY_BRKT (284) 21 33
+LPAREN (285) 14 16 36 37 38 60 67 68
+RPAREN (286) 14 16 36 37 38 60 67 68
+COMMA (287) 18 70
+SEMICLN (288) 7 8 34 35 39 40
+ILLEGAL_TOK (289)
+ERROR (290)
+XIF (291)
+
+
+Nonterminals, with rules where they appear
+
+$accept (37)
+    on left: 0
+program (38)
+    on left: 1, on right: 0
+declList (39)
+    on left: 2 3, on right: 1 3
+decl (40)
+    on left: 4 5, on right: 2 3
+varDecl (41)
+    on left: 7 8, on right: 4 23
+$@1 (42)
+    on left: 6, on right: 7
+typeSpecifier (43)
+    on left: 9 10 11 12, on right: 7 8 14 16 19 20
+funDecl (44)
+    on left: 14 16, on right: 5
+$@2 (45)
+    on left: 13, on right: 14
+$@3 (46)
+    on left: 15, on right: 16
+formalDeclList (47)
+    on left: 17 18, on right: 14 18
+formalDecl (48)
+    on left: 19 20, on right: 17 18
+funBody (49)
+    on left: 21, on right: 14 16
+localDeclList (50)
+    on left: 22 23, on right: 21 23
+statementList (51)
+    on left: 24 25, on right: 21 25 33
+statement (52)
+    on left: 26 27 28 29 30, on right: 25 36 37 38
+compoundStmt (53)
+    on left: 33, on right: 26
+$@4 (54)
+    on left: 31, on right: 33
+$@5 (55)
+    on left: 32, on right: 33
+assignStmt (56)
+    on left: 34 35, on right: 27
+condStmt (57)
+    on left: 36 37, on right: 28
+loopStmt (58)
+    on left: 38, on right: 29
+returnStmt (59)
+    on left: 39 40, on right: 30
+var (60)
+    on left: 41 43, on right: 34 61
+$@6 (61)
+    on left: 42, on right: 43
+expression (62)
+    on left: 44 45, on right: 34 35 36 37 38 40 45 60 69 70
+relop (63)
+    on left: 46 47 48 49 50 51, on right: 45
+addExpr (64)
+    on left: 52 53, on right: 43 44 45 53
+addop (65)
+    on left: 54 55, on right: 53
+term (66)
+    on left: 56 57, on right: 52 53 57
+mulop (67)
+    on left: 58 59, on right: 57
+factor (68)
+    on left: 60 61 62 63 64 65, on right: 56 57
+funcCallExpr (69)
+    on left: 67 68, on right: 62
+$@7 (70)
+    on left: 66, on right: 67
+argList (71)
+    on left: 69 70, on right: 67 70
+
+
 state 0
-	$accept : . program $end  (0)
 
-	KWD_INT  shift 1
-	KWD_STRING  shift 2
-	KWD_CHAR  shift 3
-	KWD_VOID  shift 4
-	.  error
+    0 $accept: . program $end
 
-	program  goto 5
-	declList  goto 6
-	decl  goto 7
-	varDecl  goto 8
-	typeSpecifier  goto 9
-	funDecl  goto 10
+    KWD_INT     shift, and go to state 1
+    KWD_STRING  shift, and go to state 2
+    KWD_CHAR    shift, and go to state 3
+    KWD_VOID    shift, and go to state 4
+
+    program        go to state 5
+    declList       go to state 6
+    decl           go to state 7
+    varDecl        go to state 8
+    typeSpecifier  go to state 9
+    funDecl        go to state 10
 
 
 state 1
-	typeSpecifier : KWD_INT .  (9)
 
-	.  reduce 9
+    9 typeSpecifier: KWD_INT .
+
+    $default  reduce using rule 9 (typeSpecifier)
 
 
 state 2
-	typeSpecifier : KWD_STRING .  (12)
 
-	.  reduce 12
+   12 typeSpecifier: KWD_STRING .
+
+    $default  reduce using rule 12 (typeSpecifier)
 
 
 state 3
-	typeSpecifier : KWD_CHAR .  (10)
 
-	.  reduce 10
+   10 typeSpecifier: KWD_CHAR .
+
+    $default  reduce using rule 10 (typeSpecifier)
 
 
 state 4
-	typeSpecifier : KWD_VOID .  (11)
 
-	.  reduce 11
+   11 typeSpecifier: KWD_VOID .
+
+    $default  reduce using rule 11 (typeSpecifier)
 
 
 state 5
-	$accept : program . $end  (0)
 
-	$end  accept
+    0 $accept: program . $end
+
+    $end  shift, and go to state 11
 
 
 state 6
-	program : declList .  (1)
-	declList : declList . decl  (3)
 
-	KWD_INT  shift 1
-	KWD_STRING  shift 2
-	KWD_CHAR  shift 3
-	KWD_VOID  shift 4
-	$end  reduce 1
+    1 program: declList .
+    3 declList: declList . decl
 
-	decl  goto 11
-	varDecl  goto 8
-	typeSpecifier  goto 9
-	funDecl  goto 10
+    KWD_INT     shift, and go to state 1
+    KWD_STRING  shift, and go to state 2
+    KWD_CHAR    shift, and go to state 3
+    KWD_VOID    shift, and go to state 4
+
+    $default  reduce using rule 1 (program)
+
+    decl           go to state 12
+    varDecl        go to state 8
+    typeSpecifier  go to state 9
+    funDecl        go to state 10
 
 
 state 7
-	declList : decl .  (2)
 
-	.  reduce 2
+    2 declList: decl .
+
+    $default  reduce using rule 2 (declList)
 
 
 state 8
-	decl : varDecl .  (4)
 
-	.  reduce 4
+    4 decl: varDecl .
+
+    $default  reduce using rule 4 (decl)
 
 
 state 9
-	varDecl : typeSpecifier . ID LSQ_BRKT $$1 INTCONST RSQ_BRKT SEMICLN  (7)
-	varDecl : typeSpecifier . ID SEMICLN  (8)
-	funDecl : typeSpecifier . ID LPAREN $$2 formalDeclList RPAREN funBody  (14)
-	funDecl : typeSpecifier . ID LPAREN RPAREN $$3 funBody  (16)
 
-	ID  shift 12
-	.  error
+    7 varDecl: typeSpecifier . ID LSQ_BRKT $@1 INTCONST RSQ_BRKT SEMICLN
+    8        | typeSpecifier . ID SEMICLN
+   14 funDecl: typeSpecifier . ID LPAREN $@2 formalDeclList RPAREN funBody
+   16        | typeSpecifier . ID LPAREN RPAREN $@3 funBody
+
+    ID  shift, and go to state 13
 
 
 state 10
-	decl : funDecl .  (5)
 
-	.  reduce 5
+    5 decl: funDecl .
+
+    $default  reduce using rule 5 (decl)
 
 
 state 11
-	declList : declList decl .  (3)
 
-	.  reduce 3
+    0 $accept: program $end .
+
+    $default  accept
 
 
 state 12
-	varDecl : typeSpecifier ID . LSQ_BRKT $$1 INTCONST RSQ_BRKT SEMICLN  (7)
-	varDecl : typeSpecifier ID . SEMICLN  (8)
-	funDecl : typeSpecifier ID . LPAREN $$2 formalDeclList RPAREN funBody  (14)
-	funDecl : typeSpecifier ID . LPAREN RPAREN $$3 funBody  (16)
 
-	LSQ_BRKT  shift 13
-	LPAREN  shift 14
-	SEMICLN  shift 15
-	.  error
+    3 declList: declList decl .
+
+    $default  reduce using rule 3 (declList)
 
 
 state 13
-	varDecl : typeSpecifier ID LSQ_BRKT . $$1 INTCONST RSQ_BRKT SEMICLN  (7)
-	$$1 : .  (6)
 
-	.  reduce 6
+    7 varDecl: typeSpecifier ID . LSQ_BRKT $@1 INTCONST RSQ_BRKT SEMICLN
+    8        | typeSpecifier ID . SEMICLN
+   14 funDecl: typeSpecifier ID . LPAREN $@2 formalDeclList RPAREN funBody
+   16        | typeSpecifier ID . LPAREN RPAREN $@3 funBody
 
-	$$1  goto 16
+    LSQ_BRKT  shift, and go to state 14
+    LPAREN    shift, and go to state 15
+    SEMICLN   shift, and go to state 16
 
 
 state 14
-	funDecl : typeSpecifier ID LPAREN . $$2 formalDeclList RPAREN funBody  (14)
-	funDecl : typeSpecifier ID LPAREN . RPAREN $$3 funBody  (16)
-	$$2 : .  (13)
 
-	RPAREN  shift 17
-	KWD_INT  reduce 13
-	KWD_STRING  reduce 13
-	KWD_CHAR  reduce 13
-	KWD_VOID  reduce 13
+    7 varDecl: typeSpecifier ID LSQ_BRKT . $@1 INTCONST RSQ_BRKT SEMICLN
 
-	$$2  goto 18
+    $default  reduce using rule 6 ($@1)
+
+    $@1  go to state 17
 
 
 state 15
-	varDecl : typeSpecifier ID SEMICLN .  (8)
 
-	.  reduce 8
+   14 funDecl: typeSpecifier ID LPAREN . $@2 formalDeclList RPAREN funBody
+   16        | typeSpecifier ID LPAREN . RPAREN $@3 funBody
+
+    RPAREN  shift, and go to state 18
+
+    $default  reduce using rule 13 ($@2)
+
+    $@2  go to state 19
 
 
 state 16
-	varDecl : typeSpecifier ID LSQ_BRKT $$1 . INTCONST RSQ_BRKT SEMICLN  (7)
 
-	INTCONST  shift 19
-	.  error
+    8 varDecl: typeSpecifier ID SEMICLN .
+
+    $default  reduce using rule 8 (varDecl)
 
 
 state 17
-	funDecl : typeSpecifier ID LPAREN RPAREN . $$3 funBody  (16)
-	$$3 : .  (15)
 
-	.  reduce 15
+    7 varDecl: typeSpecifier ID LSQ_BRKT $@1 . INTCONST RSQ_BRKT SEMICLN
 
-	$$3  goto 20
+    INTCONST  shift, and go to state 20
 
 
 state 18
-	funDecl : typeSpecifier ID LPAREN $$2 . formalDeclList RPAREN funBody  (14)
 
-	KWD_INT  shift 1
-	KWD_STRING  shift 2
-	KWD_CHAR  shift 3
-	KWD_VOID  shift 4
-	.  error
+   16 funDecl: typeSpecifier ID LPAREN RPAREN . $@3 funBody
 
-	typeSpecifier  goto 21
-	formalDeclList  goto 22
-	formalDecl  goto 23
+    $default  reduce using rule 15 ($@3)
+
+    $@3  go to state 21
 
 
 state 19
-	varDecl : typeSpecifier ID LSQ_BRKT $$1 INTCONST . RSQ_BRKT SEMICLN  (7)
 
-	RSQ_BRKT  shift 24
-	.  error
+   14 funDecl: typeSpecifier ID LPAREN $@2 . formalDeclList RPAREN funBody
+
+    KWD_INT     shift, and go to state 1
+    KWD_STRING  shift, and go to state 2
+    KWD_CHAR    shift, and go to state 3
+    KWD_VOID    shift, and go to state 4
+
+    typeSpecifier   go to state 22
+    formalDeclList  go to state 23
+    formalDecl      go to state 24
 
 
 state 20
-	funDecl : typeSpecifier ID LPAREN RPAREN $$3 . funBody  (16)
 
-	LCRLY_BRKT  shift 25
-	.  error
+    7 varDecl: typeSpecifier ID LSQ_BRKT $@1 INTCONST . RSQ_BRKT SEMICLN
 
-	funBody  goto 26
+    RSQ_BRKT  shift, and go to state 25
 
 
 state 21
-	formalDecl : typeSpecifier . ID  (19)
-	formalDecl : typeSpecifier . ID LSQ_BRKT RSQ_BRKT  (20)
 
-	ID  shift 27
-	.  error
+   16 funDecl: typeSpecifier ID LPAREN RPAREN $@3 . funBody
+
+    LCRLY_BRKT  shift, and go to state 26
+
+    funBody  go to state 27
 
 
 state 22
-	funDecl : typeSpecifier ID LPAREN $$2 formalDeclList . RPAREN funBody  (14)
 
-	RPAREN  shift 28
-	.  error
+   19 formalDecl: typeSpecifier . ID
+   20           | typeSpecifier . ID LSQ_BRKT RSQ_BRKT
+
+    ID  shift, and go to state 28
 
 
 state 23
-	formalDeclList : formalDecl .  (17)
-	formalDeclList : formalDecl . COMMA formalDeclList  (18)
 
-	COMMA  shift 29
-	RPAREN  reduce 17
+   14 funDecl: typeSpecifier ID LPAREN $@2 formalDeclList . RPAREN funBody
+
+    RPAREN  shift, and go to state 29
 
 
 state 24
-	varDecl : typeSpecifier ID LSQ_BRKT $$1 INTCONST RSQ_BRKT . SEMICLN  (7)
 
-	SEMICLN  shift 30
-	.  error
+   17 formalDeclList: formalDecl .
+   18               | formalDecl . COMMA formalDeclList
+
+    COMMA  shift, and go to state 30
+
+    $default  reduce using rule 17 (formalDeclList)
 
 
 state 25
-	funBody : LCRLY_BRKT . localDeclList statementList RCRLY_BRKT  (21)
-	localDeclList : .  (22)
 
-	KWD_INT  shift 1
-	KWD_STRING  shift 2
-	KWD_CHAR  shift 3
-	KWD_VOID  shift 4
-	ID  reduce 22
-	INTCONST  reduce 22
-	CHARCONST  reduce 22
-	STRCONST  reduce 22
-	KWD_IF  reduce 22
-	KWD_WHILE  reduce 22
-	KWD_RETURN  reduce 22
-	LCRLY_BRKT  reduce 22
-	RCRLY_BRKT  reduce 22
-	LPAREN  reduce 22
+    7 varDecl: typeSpecifier ID LSQ_BRKT $@1 INTCONST RSQ_BRKT . SEMICLN
 
-	varDecl  goto 31
-	typeSpecifier  goto 32
-	localDeclList  goto 33
+    SEMICLN  shift, and go to state 31
 
 
 state 26
-	funDecl : typeSpecifier ID LPAREN RPAREN $$3 funBody .  (16)
 
-	.  reduce 16
+   21 funBody: LCRLY_BRKT . localDeclList statementList RCRLY_BRKT
+
+    KWD_INT     shift, and go to state 1
+    KWD_STRING  shift, and go to state 2
+    KWD_CHAR    shift, and go to state 3
+    KWD_VOID    shift, and go to state 4
+
+    $default  reduce using rule 22 (localDeclList)
+
+    varDecl        go to state 32
+    typeSpecifier  go to state 33
+    localDeclList  go to state 34
 
 
 state 27
-	formalDecl : typeSpecifier ID .  (19)
-	formalDecl : typeSpecifier ID . LSQ_BRKT RSQ_BRKT  (20)
 
-	LSQ_BRKT  shift 34
-	RPAREN  reduce 19
-	COMMA  reduce 19
+   16 funDecl: typeSpecifier ID LPAREN RPAREN $@3 funBody .
+
+    $default  reduce using rule 16 (funDecl)
 
 
 state 28
-	funDecl : typeSpecifier ID LPAREN $$2 formalDeclList RPAREN . funBody  (14)
 
-	LCRLY_BRKT  shift 25
-	.  error
+   19 formalDecl: typeSpecifier ID .
+   20           | typeSpecifier ID . LSQ_BRKT RSQ_BRKT
 
-	funBody  goto 35
+    LSQ_BRKT  shift, and go to state 35
+
+    $default  reduce using rule 19 (formalDecl)
 
 
 state 29
-	formalDeclList : formalDecl COMMA . formalDeclList  (18)
 
-	KWD_INT  shift 1
-	KWD_STRING  shift 2
-	KWD_CHAR  shift 3
-	KWD_VOID  shift 4
-	.  error
+   14 funDecl: typeSpecifier ID LPAREN $@2 formalDeclList RPAREN . funBody
 
-	typeSpecifier  goto 21
-	formalDeclList  goto 36
-	formalDecl  goto 23
+    LCRLY_BRKT  shift, and go to state 26
+
+    funBody  go to state 36
 
 
 state 30
-	varDecl : typeSpecifier ID LSQ_BRKT $$1 INTCONST RSQ_BRKT SEMICLN .  (7)
 
-	.  reduce 7
+   18 formalDeclList: formalDecl COMMA . formalDeclList
+
+    KWD_INT     shift, and go to state 1
+    KWD_STRING  shift, and go to state 2
+    KWD_CHAR    shift, and go to state 3
+    KWD_VOID    shift, and go to state 4
+
+    typeSpecifier   go to state 22
+    formalDeclList  go to state 37
+    formalDecl      go to state 24
 
 
 state 31
-	localDeclList : varDecl . localDeclList  (23)
-	localDeclList : .  (22)
 
-	KWD_INT  shift 1
-	KWD_STRING  shift 2
-	KWD_CHAR  shift 3
-	KWD_VOID  shift 4
-	ID  reduce 22
-	INTCONST  reduce 22
-	CHARCONST  reduce 22
-	STRCONST  reduce 22
-	KWD_IF  reduce 22
-	KWD_WHILE  reduce 22
-	KWD_RETURN  reduce 22
-	LCRLY_BRKT  reduce 22
-	RCRLY_BRKT  reduce 22
-	LPAREN  reduce 22
+    7 varDecl: typeSpecifier ID LSQ_BRKT $@1 INTCONST RSQ_BRKT SEMICLN .
 
-	varDecl  goto 31
-	typeSpecifier  goto 32
-	localDeclList  goto 37
+    $default  reduce using rule 7 (varDecl)
 
 
 state 32
-	varDecl : typeSpecifier . ID LSQ_BRKT $$1 INTCONST RSQ_BRKT SEMICLN  (7)
-	varDecl : typeSpecifier . ID SEMICLN  (8)
 
-	ID  shift 38
-	.  error
+   23 localDeclList: varDecl . localDeclList
+
+    KWD_INT     shift, and go to state 1
+    KWD_STRING  shift, and go to state 2
+    KWD_CHAR    shift, and go to state 3
+    KWD_VOID    shift, and go to state 4
+
+    $default  reduce using rule 22 (localDeclList)
+
+    varDecl        go to state 32
+    typeSpecifier  go to state 33
+    localDeclList  go to state 38
 
 
 state 33
-	funBody : LCRLY_BRKT localDeclList . statementList RCRLY_BRKT  (21)
-	statementList : .  (24)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	KWD_IF  shift 43
-	KWD_WHILE  shift 44
-	KWD_RETURN  shift 45
-	LCRLY_BRKT  shift 46
-	LPAREN  shift 47
-	RCRLY_BRKT  reduce 24
+    7 varDecl: typeSpecifier . ID LSQ_BRKT $@1 INTCONST RSQ_BRKT SEMICLN
+    8        | typeSpecifier . ID SEMICLN
 
-	statementList  goto 48
-	statement  goto 49
-	compoundStmt  goto 50
-	assignStmt  goto 51
-	condStmt  goto 52
-	loopStmt  goto 53
-	returnStmt  goto 54
-	var  goto 55
-	expression  goto 56
-	addExpr  goto 57
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    ID  shift, and go to state 39
 
 
 state 34
-	formalDecl : typeSpecifier ID LSQ_BRKT . RSQ_BRKT  (20)
 
-	RSQ_BRKT  shift 61
-	.  error
+   21 funBody: LCRLY_BRKT localDeclList . statementList RCRLY_BRKT
+
+    ID          shift, and go to state 40
+    INTCONST    shift, and go to state 41
+    CHARCONST   shift, and go to state 42
+    STRCONST    shift, and go to state 43
+    KWD_IF      shift, and go to state 44
+    KWD_WHILE   shift, and go to state 45
+    KWD_RETURN  shift, and go to state 46
+    LCRLY_BRKT  shift, and go to state 47
+    LPAREN      shift, and go to state 48
+
+    $default  reduce using rule 24 (statementList)
+
+    statementList  go to state 49
+    statement      go to state 50
+    compoundStmt   go to state 51
+    assignStmt     go to state 52
+    condStmt       go to state 53
+    loopStmt       go to state 54
+    returnStmt     go to state 55
+    var            go to state 56
+    expression     go to state 57
+    addExpr        go to state 58
+    term           go to state 59
+    factor         go to state 60
+    funcCallExpr   go to state 61
 
 
 state 35
-	funDecl : typeSpecifier ID LPAREN $$2 formalDeclList RPAREN funBody .  (14)
 
-	.  reduce 14
+   20 formalDecl: typeSpecifier ID LSQ_BRKT . RSQ_BRKT
+
+    RSQ_BRKT  shift, and go to state 62
 
 
 state 36
-	formalDeclList : formalDecl COMMA formalDeclList .  (18)
 
-	.  reduce 18
+   14 funDecl: typeSpecifier ID LPAREN $@2 formalDeclList RPAREN funBody .
+
+    $default  reduce using rule 14 (funDecl)
 
 
 state 37
-	localDeclList : varDecl localDeclList .  (23)
 
-	.  reduce 23
+   18 formalDeclList: formalDecl COMMA formalDeclList .
+
+    $default  reduce using rule 18 (formalDeclList)
 
 
 state 38
-	varDecl : typeSpecifier ID . LSQ_BRKT $$1 INTCONST RSQ_BRKT SEMICLN  (7)
-	varDecl : typeSpecifier ID . SEMICLN  (8)
 
-	LSQ_BRKT  shift 13
-	SEMICLN  shift 15
-	.  error
+   23 localDeclList: varDecl localDeclList .
+
+    $default  reduce using rule 23 (localDeclList)
 
 
 state 39
-	var : ID .  (41)
-	var : ID . LSQ_BRKT $$6 addExpr RSQ_BRKT  (43)
-	funcCallExpr : ID . LPAREN argList RPAREN  (66)
-	funcCallExpr : ID . LPAREN RPAREN  (67)
 
-	LSQ_BRKT  shift 62
-	LPAREN  shift 63
-	OPER_ADD  reduce 41
-	OPER_SUB  reduce 41
-	OPER_MUL  reduce 41
-	OPER_DIV  reduce 41
-	OPER_LT  reduce 41
-	OPER_GT  reduce 41
-	OPER_GTE  reduce 41
-	OPER_LTE  reduce 41
-	OPER_EQ  reduce 41
-	OPER_NEQ  reduce 41
-	OPER_ASGN  reduce 41
-	RSQ_BRKT  reduce 41
-	RPAREN  reduce 41
-	COMMA  reduce 41
-	SEMICLN  reduce 41
+    7 varDecl: typeSpecifier ID . LSQ_BRKT $@1 INTCONST RSQ_BRKT SEMICLN
+    8        | typeSpecifier ID . SEMICLN
+
+    LSQ_BRKT  shift, and go to state 14
+    SEMICLN   shift, and go to state 16
 
 
 state 40
-	factor : INTCONST .  (63)
 
-	.  reduce 63
+   41 var: ID .
+   43    | ID . LSQ_BRKT $@6 addExpr RSQ_BRKT
+   67 funcCallExpr: ID . LPAREN $@7 argList RPAREN
+   68             | ID . LPAREN RPAREN
+
+    LSQ_BRKT  shift, and go to state 63
+    LPAREN    shift, and go to state 64
+
+    $default  reduce using rule 41 (var)
 
 
 state 41
-	factor : CHARCONST .  (64)
 
-	.  reduce 64
+   63 factor: INTCONST .
+
+    $default  reduce using rule 63 (factor)
 
 
 state 42
-	factor : STRCONST .  (65)
 
-	.  reduce 65
+   64 factor: CHARCONST .
+
+    $default  reduce using rule 64 (factor)
 
 
 state 43
-	condStmt : KWD_IF . LPAREN expression RPAREN statement  (36)
-	condStmt : KWD_IF . LPAREN expression RPAREN statement KWD_ELSE statement  (37)
 
-	LPAREN  shift 64
-	.  error
+   65 factor: STRCONST .
+
+    $default  reduce using rule 65 (factor)
 
 
 state 44
-	loopStmt : KWD_WHILE . LPAREN expression RPAREN statement  (38)
 
-	LPAREN  shift 65
-	.  error
+   36 condStmt: KWD_IF . LPAREN expression RPAREN statement
+   37         | KWD_IF . LPAREN expression RPAREN statement KWD_ELSE statement
+
+    LPAREN  shift, and go to state 65
 
 
 state 45
-	returnStmt : KWD_RETURN . SEMICLN  (39)
-	returnStmt : KWD_RETURN . expression SEMICLN  (40)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	LPAREN  shift 47
-	SEMICLN  shift 66
-	.  error
+   38 loopStmt: KWD_WHILE . LPAREN expression RPAREN statement
 
-	var  goto 67
-	expression  goto 68
-	addExpr  goto 57
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    LPAREN  shift, and go to state 66
 
 
 state 46
-	compoundStmt : LCRLY_BRKT . $$4 statementList $$5 RCRLY_BRKT  (33)
-	$$4 : .  (31)
 
-	.  reduce 31
+   39 returnStmt: KWD_RETURN . SEMICLN
+   40           | KWD_RETURN . expression SEMICLN
 
-	$$4  goto 69
+    ID         shift, and go to state 40
+    INTCONST   shift, and go to state 41
+    CHARCONST  shift, and go to state 42
+    STRCONST   shift, and go to state 43
+    LPAREN     shift, and go to state 48
+    SEMICLN    shift, and go to state 67
+
+    var           go to state 68
+    expression    go to state 69
+    addExpr       go to state 58
+    term          go to state 59
+    factor        go to state 60
+    funcCallExpr  go to state 61
 
 
 state 47
-	factor : LPAREN . expression RPAREN  (60)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	LPAREN  shift 47
-	.  error
+   33 compoundStmt: LCRLY_BRKT . $@4 statementList $@5 RCRLY_BRKT
 
-	var  goto 67
-	expression  goto 70
-	addExpr  goto 57
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    $default  reduce using rule 31 ($@4)
+
+    $@4  go to state 70
 
 
 state 48
-	funBody : LCRLY_BRKT localDeclList statementList . RCRLY_BRKT  (21)
 
-	RCRLY_BRKT  shift 71
-	.  error
+   60 factor: LPAREN . expression RPAREN
+
+    ID         shift, and go to state 40
+    INTCONST   shift, and go to state 41
+    CHARCONST  shift, and go to state 42
+    STRCONST   shift, and go to state 43
+    LPAREN     shift, and go to state 48
+
+    var           go to state 68
+    expression    go to state 71
+    addExpr       go to state 58
+    term          go to state 59
+    factor        go to state 60
+    funcCallExpr  go to state 61
 
 
 state 49
-	statementList : statement . statementList  (25)
-	statementList : .  (24)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	KWD_IF  shift 43
-	KWD_WHILE  shift 44
-	KWD_RETURN  shift 45
-	LCRLY_BRKT  shift 46
-	LPAREN  shift 47
-	RCRLY_BRKT  reduce 24
+   21 funBody: LCRLY_BRKT localDeclList statementList . RCRLY_BRKT
 
-	statementList  goto 72
-	statement  goto 49
-	compoundStmt  goto 50
-	assignStmt  goto 51
-	condStmt  goto 52
-	loopStmt  goto 53
-	returnStmt  goto 54
-	var  goto 55
-	expression  goto 56
-	addExpr  goto 57
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    RCRLY_BRKT  shift, and go to state 72
 
 
 state 50
-	statement : compoundStmt .  (26)
 
-	.  reduce 26
+   25 statementList: statement . statementList
+
+    ID          shift, and go to state 40
+    INTCONST    shift, and go to state 41
+    CHARCONST   shift, and go to state 42
+    STRCONST    shift, and go to state 43
+    KWD_IF      shift, and go to state 44
+    KWD_WHILE   shift, and go to state 45
+    KWD_RETURN  shift, and go to state 46
+    LCRLY_BRKT  shift, and go to state 47
+    LPAREN      shift, and go to state 48
+
+    $default  reduce using rule 24 (statementList)
+
+    statementList  go to state 73
+    statement      go to state 50
+    compoundStmt   go to state 51
+    assignStmt     go to state 52
+    condStmt       go to state 53
+    loopStmt       go to state 54
+    returnStmt     go to state 55
+    var            go to state 56
+    expression     go to state 57
+    addExpr        go to state 58
+    term           go to state 59
+    factor         go to state 60
+    funcCallExpr   go to state 61
 
 
 state 51
-	statement : assignStmt .  (27)
 
-	.  reduce 27
+   26 statement: compoundStmt .
+
+    $default  reduce using rule 26 (statement)
 
 
 state 52
-	statement : condStmt .  (28)
 
-	.  reduce 28
+   27 statement: assignStmt .
+
+    $default  reduce using rule 27 (statement)
 
 
 state 53
-	statement : loopStmt .  (29)
 
-	.  reduce 29
+   28 statement: condStmt .
+
+    $default  reduce using rule 28 (statement)
 
 
 state 54
-	statement : returnStmt .  (30)
 
-	.  reduce 30
+   29 statement: loopStmt .
+
+    $default  reduce using rule 29 (statement)
 
 
 state 55
-	assignStmt : var . OPER_ASGN expression SEMICLN  (34)
-	factor : var .  (61)
 
-	OPER_ASGN  shift 73
-	OPER_ADD  reduce 61
-	OPER_SUB  reduce 61
-	OPER_MUL  reduce 61
-	OPER_DIV  reduce 61
-	OPER_LT  reduce 61
-	OPER_GT  reduce 61
-	OPER_GTE  reduce 61
-	OPER_LTE  reduce 61
-	OPER_EQ  reduce 61
-	OPER_NEQ  reduce 61
-	SEMICLN  reduce 61
+   30 statement: returnStmt .
+
+    $default  reduce using rule 30 (statement)
 
 
 state 56
-	assignStmt : expression . SEMICLN  (35)
-	expression : expression . relop addExpr  (45)
 
-	OPER_LT  shift 74
-	OPER_GT  shift 75
-	OPER_GTE  shift 76
-	OPER_LTE  shift 77
-	OPER_EQ  shift 78
-	OPER_NEQ  shift 79
-	SEMICLN  shift 80
-	.  error
+   34 assignStmt: var . OPER_ASGN expression SEMICLN
+   61 factor: var .
 
-	relop  goto 81
+    OPER_ASGN  shift, and go to state 74
+
+    $default  reduce using rule 61 (factor)
 
 
 state 57
-	expression : addExpr .  (44)
-	addExpr : addExpr . addop term  (53)
 
-	OPER_ADD  shift 82
-	OPER_SUB  shift 83
-	OPER_LT  reduce 44
-	OPER_GT  reduce 44
-	OPER_GTE  reduce 44
-	OPER_LTE  reduce 44
-	OPER_EQ  reduce 44
-	OPER_NEQ  reduce 44
-	RPAREN  reduce 44
-	COMMA  reduce 44
-	SEMICLN  reduce 44
+   35 assignStmt: expression . SEMICLN
+   45 expression: expression . relop addExpr
 
-	addop  goto 84
+    OPER_LT   shift, and go to state 75
+    OPER_GT   shift, and go to state 76
+    OPER_GTE  shift, and go to state 77
+    OPER_LTE  shift, and go to state 78
+    OPER_EQ   shift, and go to state 79
+    OPER_NEQ  shift, and go to state 80
+    SEMICLN   shift, and go to state 81
+
+    relop  go to state 82
 
 
 state 58
-	addExpr : term .  (52)
-	term : term . mulop factor  (57)
 
-	OPER_MUL  shift 85
-	OPER_DIV  shift 86
-	OPER_ADD  reduce 52
-	OPER_SUB  reduce 52
-	OPER_LT  reduce 52
-	OPER_GT  reduce 52
-	OPER_GTE  reduce 52
-	OPER_LTE  reduce 52
-	OPER_EQ  reduce 52
-	OPER_NEQ  reduce 52
-	RSQ_BRKT  reduce 52
-	RPAREN  reduce 52
-	COMMA  reduce 52
-	SEMICLN  reduce 52
+   44 expression: addExpr .
+   53 addExpr: addExpr . addop term
 
-	mulop  goto 87
+    OPER_ADD  shift, and go to state 83
+    OPER_SUB  shift, and go to state 84
+
+    $default  reduce using rule 44 (expression)
+
+    addop  go to state 85
 
 
 state 59
-	term : factor .  (56)
 
-	.  reduce 56
+   52 addExpr: term .
+   57 term: term . mulop factor
+
+    OPER_MUL  shift, and go to state 86
+    OPER_DIV  shift, and go to state 87
+
+    $default  reduce using rule 52 (addExpr)
+
+    mulop  go to state 88
 
 
 state 60
-	factor : funcCallExpr .  (62)
 
-	.  reduce 62
+   56 term: factor .
+
+    $default  reduce using rule 56 (term)
 
 
 state 61
-	formalDecl : typeSpecifier ID LSQ_BRKT RSQ_BRKT .  (20)
 
-	.  reduce 20
+   62 factor: funcCallExpr .
+
+    $default  reduce using rule 62 (factor)
 
 
 state 62
-	var : ID LSQ_BRKT . $$6 addExpr RSQ_BRKT  (43)
-	$$6 : .  (42)
 
-	.  reduce 42
+   20 formalDecl: typeSpecifier ID LSQ_BRKT RSQ_BRKT .
 
-	$$6  goto 88
+    $default  reduce using rule 20 (formalDecl)
 
 
 state 63
-	funcCallExpr : ID LPAREN . argList RPAREN  (66)
-	funcCallExpr : ID LPAREN . RPAREN  (67)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	LPAREN  shift 47
-	RPAREN  shift 89
-	.  error
+   43 var: ID LSQ_BRKT . $@6 addExpr RSQ_BRKT
 
-	var  goto 67
-	expression  goto 90
-	addExpr  goto 57
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
-	argList  goto 91
+    $default  reduce using rule 42 ($@6)
+
+    $@6  go to state 89
 
 
 state 64
-	condStmt : KWD_IF LPAREN . expression RPAREN statement  (36)
-	condStmt : KWD_IF LPAREN . expression RPAREN statement KWD_ELSE statement  (37)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	LPAREN  shift 47
-	.  error
+   67 funcCallExpr: ID LPAREN . $@7 argList RPAREN
+   68             | ID LPAREN . RPAREN
 
-	var  goto 67
-	expression  goto 92
-	addExpr  goto 57
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    RPAREN  shift, and go to state 90
+
+    $default  reduce using rule 66 ($@7)
+
+    $@7  go to state 91
 
 
 state 65
-	loopStmt : KWD_WHILE LPAREN . expression RPAREN statement  (38)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	LPAREN  shift 47
-	.  error
+   36 condStmt: KWD_IF LPAREN . expression RPAREN statement
+   37         | KWD_IF LPAREN . expression RPAREN statement KWD_ELSE statement
 
-	var  goto 67
-	expression  goto 93
-	addExpr  goto 57
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    ID         shift, and go to state 40
+    INTCONST   shift, and go to state 41
+    CHARCONST  shift, and go to state 42
+    STRCONST   shift, and go to state 43
+    LPAREN     shift, and go to state 48
+
+    var           go to state 68
+    expression    go to state 92
+    addExpr       go to state 58
+    term          go to state 59
+    factor        go to state 60
+    funcCallExpr  go to state 61
 
 
 state 66
-	returnStmt : KWD_RETURN SEMICLN .  (39)
 
-	.  reduce 39
+   38 loopStmt: KWD_WHILE LPAREN . expression RPAREN statement
+
+    ID         shift, and go to state 40
+    INTCONST   shift, and go to state 41
+    CHARCONST  shift, and go to state 42
+    STRCONST   shift, and go to state 43
+    LPAREN     shift, and go to state 48
+
+    var           go to state 68
+    expression    go to state 93
+    addExpr       go to state 58
+    term          go to state 59
+    factor        go to state 60
+    funcCallExpr  go to state 61
 
 
 state 67
-	factor : var .  (61)
 
-	.  reduce 61
+   39 returnStmt: KWD_RETURN SEMICLN .
+
+    $default  reduce using rule 39 (returnStmt)
 
 
 state 68
-	returnStmt : KWD_RETURN expression . SEMICLN  (40)
-	expression : expression . relop addExpr  (45)
 
-	OPER_LT  shift 74
-	OPER_GT  shift 75
-	OPER_GTE  shift 76
-	OPER_LTE  shift 77
-	OPER_EQ  shift 78
-	OPER_NEQ  shift 79
-	SEMICLN  shift 94
-	.  error
+   61 factor: var .
 
-	relop  goto 81
+    $default  reduce using rule 61 (factor)
 
 
 state 69
-	compoundStmt : LCRLY_BRKT $$4 . statementList $$5 RCRLY_BRKT  (33)
-	statementList : .  (24)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	KWD_IF  shift 43
-	KWD_WHILE  shift 44
-	KWD_RETURN  shift 45
-	LCRLY_BRKT  shift 46
-	LPAREN  shift 47
-	RCRLY_BRKT  reduce 24
+   40 returnStmt: KWD_RETURN expression . SEMICLN
+   45 expression: expression . relop addExpr
 
-	statementList  goto 95
-	statement  goto 49
-	compoundStmt  goto 50
-	assignStmt  goto 51
-	condStmt  goto 52
-	loopStmt  goto 53
-	returnStmt  goto 54
-	var  goto 55
-	expression  goto 56
-	addExpr  goto 57
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    OPER_LT   shift, and go to state 75
+    OPER_GT   shift, and go to state 76
+    OPER_GTE  shift, and go to state 77
+    OPER_LTE  shift, and go to state 78
+    OPER_EQ   shift, and go to state 79
+    OPER_NEQ  shift, and go to state 80
+    SEMICLN   shift, and go to state 94
+
+    relop  go to state 82
 
 
 state 70
-	expression : expression . relop addExpr  (45)
-	factor : LPAREN expression . RPAREN  (60)
 
-	OPER_LT  shift 74
-	OPER_GT  shift 75
-	OPER_GTE  shift 76
-	OPER_LTE  shift 77
-	OPER_EQ  shift 78
-	OPER_NEQ  shift 79
-	RPAREN  shift 96
-	.  error
+   33 compoundStmt: LCRLY_BRKT $@4 . statementList $@5 RCRLY_BRKT
 
-	relop  goto 81
+    ID          shift, and go to state 40
+    INTCONST    shift, and go to state 41
+    CHARCONST   shift, and go to state 42
+    STRCONST    shift, and go to state 43
+    KWD_IF      shift, and go to state 44
+    KWD_WHILE   shift, and go to state 45
+    KWD_RETURN  shift, and go to state 46
+    LCRLY_BRKT  shift, and go to state 47
+    LPAREN      shift, and go to state 48
+
+    $default  reduce using rule 24 (statementList)
+
+    statementList  go to state 95
+    statement      go to state 50
+    compoundStmt   go to state 51
+    assignStmt     go to state 52
+    condStmt       go to state 53
+    loopStmt       go to state 54
+    returnStmt     go to state 55
+    var            go to state 56
+    expression     go to state 57
+    addExpr        go to state 58
+    term           go to state 59
+    factor         go to state 60
+    funcCallExpr   go to state 61
 
 
 state 71
-	funBody : LCRLY_BRKT localDeclList statementList RCRLY_BRKT .  (21)
 
-	.  reduce 21
+   45 expression: expression . relop addExpr
+   60 factor: LPAREN expression . RPAREN
+
+    OPER_LT   shift, and go to state 75
+    OPER_GT   shift, and go to state 76
+    OPER_GTE  shift, and go to state 77
+    OPER_LTE  shift, and go to state 78
+    OPER_EQ   shift, and go to state 79
+    OPER_NEQ  shift, and go to state 80
+    RPAREN    shift, and go to state 96
+
+    relop  go to state 82
 
 
 state 72
-	statementList : statement statementList .  (25)
 
-	.  reduce 25
+   21 funBody: LCRLY_BRKT localDeclList statementList RCRLY_BRKT .
+
+    $default  reduce using rule 21 (funBody)
 
 
 state 73
-	assignStmt : var OPER_ASGN . expression SEMICLN  (34)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	LPAREN  shift 47
-	.  error
+   25 statementList: statement statementList .
 
-	var  goto 67
-	expression  goto 97
-	addExpr  goto 57
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    $default  reduce using rule 25 (statementList)
 
 
 state 74
-	relop : OPER_LT .  (48)
 
-	.  reduce 48
+   34 assignStmt: var OPER_ASGN . expression SEMICLN
+
+    ID         shift, and go to state 40
+    INTCONST   shift, and go to state 41
+    CHARCONST  shift, and go to state 42
+    STRCONST   shift, and go to state 43
+    LPAREN     shift, and go to state 48
+
+    var           go to state 68
+    expression    go to state 97
+    addExpr       go to state 58
+    term          go to state 59
+    factor        go to state 60
+    funcCallExpr  go to state 61
 
 
 state 75
-	relop : OPER_GT .  (47)
 
-	.  reduce 47
+   48 relop: OPER_LT .
+
+    $default  reduce using rule 48 (relop)
 
 
 state 76
-	relop : OPER_GTE .  (46)
 
-	.  reduce 46
+   47 relop: OPER_GT .
+
+    $default  reduce using rule 47 (relop)
 
 
 state 77
-	relop : OPER_LTE .  (49)
 
-	.  reduce 49
+   46 relop: OPER_GTE .
+
+    $default  reduce using rule 46 (relop)
 
 
 state 78
-	relop : OPER_EQ .  (50)
 
-	.  reduce 50
+   49 relop: OPER_LTE .
+
+    $default  reduce using rule 49 (relop)
 
 
 state 79
-	relop : OPER_NEQ .  (51)
 
-	.  reduce 51
+   50 relop: OPER_EQ .
+
+    $default  reduce using rule 50 (relop)
 
 
 state 80
-	assignStmt : expression SEMICLN .  (35)
 
-	.  reduce 35
+   51 relop: OPER_NEQ .
+
+    $default  reduce using rule 51 (relop)
 
 
 state 81
-	expression : expression relop . addExpr  (45)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	LPAREN  shift 47
-	.  error
+   35 assignStmt: expression SEMICLN .
 
-	var  goto 67
-	addExpr  goto 98
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    $default  reduce using rule 35 (assignStmt)
 
 
 state 82
-	addop : OPER_ADD .  (54)
 
-	.  reduce 54
+   45 expression: expression relop . addExpr
+
+    ID         shift, and go to state 40
+    INTCONST   shift, and go to state 41
+    CHARCONST  shift, and go to state 42
+    STRCONST   shift, and go to state 43
+    LPAREN     shift, and go to state 48
+
+    var           go to state 68
+    addExpr       go to state 98
+    term          go to state 59
+    factor        go to state 60
+    funcCallExpr  go to state 61
 
 
 state 83
-	addop : OPER_SUB .  (55)
 
-	.  reduce 55
+   54 addop: OPER_ADD .
+
+    $default  reduce using rule 54 (addop)
 
 
 state 84
-	addExpr : addExpr addop . term  (53)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	LPAREN  shift 47
-	.  error
+   55 addop: OPER_SUB .
 
-	var  goto 67
-	term  goto 99
-	factor  goto 59
-	funcCallExpr  goto 60
+    $default  reduce using rule 55 (addop)
 
 
 state 85
-	mulop : OPER_MUL .  (58)
 
-	.  reduce 58
+   53 addExpr: addExpr addop . term
+
+    ID         shift, and go to state 40
+    INTCONST   shift, and go to state 41
+    CHARCONST  shift, and go to state 42
+    STRCONST   shift, and go to state 43
+    LPAREN     shift, and go to state 48
+
+    var           go to state 68
+    term          go to state 99
+    factor        go to state 60
+    funcCallExpr  go to state 61
 
 
 state 86
-	mulop : OPER_DIV .  (59)
 
-	.  reduce 59
+   58 mulop: OPER_MUL .
+
+    $default  reduce using rule 58 (mulop)
 
 
 state 87
-	term : term mulop . factor  (57)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	LPAREN  shift 47
-	.  error
+   59 mulop: OPER_DIV .
 
-	var  goto 67
-	factor  goto 100
-	funcCallExpr  goto 60
+    $default  reduce using rule 59 (mulop)
 
 
 state 88
-	var : ID LSQ_BRKT $$6 . addExpr RSQ_BRKT  (43)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	LPAREN  shift 47
-	.  error
+   57 term: term mulop . factor
 
-	var  goto 67
-	addExpr  goto 101
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    ID         shift, and go to state 40
+    INTCONST   shift, and go to state 41
+    CHARCONST  shift, and go to state 42
+    STRCONST   shift, and go to state 43
+    LPAREN     shift, and go to state 48
+
+    var           go to state 68
+    factor        go to state 100
+    funcCallExpr  go to state 61
 
 
 state 89
-	funcCallExpr : ID LPAREN RPAREN .  (67)
 
-	.  reduce 67
+   43 var: ID LSQ_BRKT $@6 . addExpr RSQ_BRKT
+
+    ID         shift, and go to state 40
+    INTCONST   shift, and go to state 41
+    CHARCONST  shift, and go to state 42
+    STRCONST   shift, and go to state 43
+    LPAREN     shift, and go to state 48
+
+    var           go to state 68
+    addExpr       go to state 101
+    term          go to state 59
+    factor        go to state 60
+    funcCallExpr  go to state 61
 
 
 state 90
-	expression : expression . relop addExpr  (45)
-	argList : expression .  (68)
 
-	OPER_LT  shift 74
-	OPER_GT  shift 75
-	OPER_GTE  shift 76
-	OPER_LTE  shift 77
-	OPER_EQ  shift 78
-	OPER_NEQ  shift 79
-	RPAREN  reduce 68
-	COMMA  reduce 68
+   68 funcCallExpr: ID LPAREN RPAREN .
 
-	relop  goto 81
+    $default  reduce using rule 68 (funcCallExpr)
 
 
 state 91
-	funcCallExpr : ID LPAREN argList . RPAREN  (66)
-	argList : argList . COMMA expression  (69)
 
-	RPAREN  shift 102
-	COMMA  shift 103
-	.  error
+   67 funcCallExpr: ID LPAREN $@7 . argList RPAREN
+
+    ID         shift, and go to state 40
+    INTCONST   shift, and go to state 41
+    CHARCONST  shift, and go to state 42
+    STRCONST   shift, and go to state 43
+    LPAREN     shift, and go to state 48
+
+    var           go to state 68
+    expression    go to state 102
+    addExpr       go to state 58
+    term          go to state 59
+    factor        go to state 60
+    funcCallExpr  go to state 61
+    argList       go to state 103
 
 
 state 92
-	condStmt : KWD_IF LPAREN expression . RPAREN statement  (36)
-	condStmt : KWD_IF LPAREN expression . RPAREN statement KWD_ELSE statement  (37)
-	expression : expression . relop addExpr  (45)
 
-	OPER_LT  shift 74
-	OPER_GT  shift 75
-	OPER_GTE  shift 76
-	OPER_LTE  shift 77
-	OPER_EQ  shift 78
-	OPER_NEQ  shift 79
-	RPAREN  shift 104
-	.  error
+   36 condStmt: KWD_IF LPAREN expression . RPAREN statement
+   37         | KWD_IF LPAREN expression . RPAREN statement KWD_ELSE statement
+   45 expression: expression . relop addExpr
 
-	relop  goto 81
+    OPER_LT   shift, and go to state 75
+    OPER_GT   shift, and go to state 76
+    OPER_GTE  shift, and go to state 77
+    OPER_LTE  shift, and go to state 78
+    OPER_EQ   shift, and go to state 79
+    OPER_NEQ  shift, and go to state 80
+    RPAREN    shift, and go to state 104
+
+    relop  go to state 82
 
 
 state 93
-	loopStmt : KWD_WHILE LPAREN expression . RPAREN statement  (38)
-	expression : expression . relop addExpr  (45)
 
-	OPER_LT  shift 74
-	OPER_GT  shift 75
-	OPER_GTE  shift 76
-	OPER_LTE  shift 77
-	OPER_EQ  shift 78
-	OPER_NEQ  shift 79
-	RPAREN  shift 105
-	.  error
+   38 loopStmt: KWD_WHILE LPAREN expression . RPAREN statement
+   45 expression: expression . relop addExpr
 
-	relop  goto 81
+    OPER_LT   shift, and go to state 75
+    OPER_GT   shift, and go to state 76
+    OPER_GTE  shift, and go to state 77
+    OPER_LTE  shift, and go to state 78
+    OPER_EQ   shift, and go to state 79
+    OPER_NEQ  shift, and go to state 80
+    RPAREN    shift, and go to state 105
+
+    relop  go to state 82
 
 
 state 94
-	returnStmt : KWD_RETURN expression SEMICLN .  (40)
 
-	.  reduce 40
+   40 returnStmt: KWD_RETURN expression SEMICLN .
+
+    $default  reduce using rule 40 (returnStmt)
 
 
 state 95
-	compoundStmt : LCRLY_BRKT $$4 statementList . $$5 RCRLY_BRKT  (33)
-	$$5 : .  (32)
 
-	.  reduce 32
+   33 compoundStmt: LCRLY_BRKT $@4 statementList . $@5 RCRLY_BRKT
 
-	$$5  goto 106
+    $default  reduce using rule 32 ($@5)
+
+    $@5  go to state 106
 
 
 state 96
-	factor : LPAREN expression RPAREN .  (60)
 
-	.  reduce 60
+   60 factor: LPAREN expression RPAREN .
+
+    $default  reduce using rule 60 (factor)
 
 
 state 97
-	assignStmt : var OPER_ASGN expression . SEMICLN  (34)
-	expression : expression . relop addExpr  (45)
 
-	OPER_LT  shift 74
-	OPER_GT  shift 75
-	OPER_GTE  shift 76
-	OPER_LTE  shift 77
-	OPER_EQ  shift 78
-	OPER_NEQ  shift 79
-	SEMICLN  shift 107
-	.  error
+   34 assignStmt: var OPER_ASGN expression . SEMICLN
+   45 expression: expression . relop addExpr
 
-	relop  goto 81
+    OPER_LT   shift, and go to state 75
+    OPER_GT   shift, and go to state 76
+    OPER_GTE  shift, and go to state 77
+    OPER_LTE  shift, and go to state 78
+    OPER_EQ   shift, and go to state 79
+    OPER_NEQ  shift, and go to state 80
+    SEMICLN   shift, and go to state 107
+
+    relop  go to state 82
 
 
 state 98
-	expression : expression relop addExpr .  (45)
-	addExpr : addExpr . addop term  (53)
 
-	OPER_ADD  shift 82
-	OPER_SUB  shift 83
-	OPER_LT  reduce 45
-	OPER_GT  reduce 45
-	OPER_GTE  reduce 45
-	OPER_LTE  reduce 45
-	OPER_EQ  reduce 45
-	OPER_NEQ  reduce 45
-	RPAREN  reduce 45
-	COMMA  reduce 45
-	SEMICLN  reduce 45
+   45 expression: expression relop addExpr .
+   53 addExpr: addExpr . addop term
 
-	addop  goto 84
+    OPER_ADD  shift, and go to state 83
+    OPER_SUB  shift, and go to state 84
+
+    $default  reduce using rule 45 (expression)
+
+    addop  go to state 85
 
 
 state 99
-	addExpr : addExpr addop term .  (53)
-	term : term . mulop factor  (57)
 
-	OPER_MUL  shift 85
-	OPER_DIV  shift 86
-	OPER_ADD  reduce 53
-	OPER_SUB  reduce 53
-	OPER_LT  reduce 53
-	OPER_GT  reduce 53
-	OPER_GTE  reduce 53
-	OPER_LTE  reduce 53
-	OPER_EQ  reduce 53
-	OPER_NEQ  reduce 53
-	RSQ_BRKT  reduce 53
-	RPAREN  reduce 53
-	COMMA  reduce 53
-	SEMICLN  reduce 53
+   53 addExpr: addExpr addop term .
+   57 term: term . mulop factor
 
-	mulop  goto 87
+    OPER_MUL  shift, and go to state 86
+    OPER_DIV  shift, and go to state 87
+
+    $default  reduce using rule 53 (addExpr)
+
+    mulop  go to state 88
 
 
 state 100
-	term : term mulop factor .  (57)
 
-	.  reduce 57
+   57 term: term mulop factor .
+
+    $default  reduce using rule 57 (term)
 
 
 state 101
-	var : ID LSQ_BRKT $$6 addExpr . RSQ_BRKT  (43)
-	addExpr : addExpr . addop term  (53)
 
-	OPER_ADD  shift 82
-	OPER_SUB  shift 83
-	RSQ_BRKT  shift 108
-	.  error
+   43 var: ID LSQ_BRKT $@6 addExpr . RSQ_BRKT
+   53 addExpr: addExpr . addop term
 
-	addop  goto 84
+    OPER_ADD  shift, and go to state 83
+    OPER_SUB  shift, and go to state 84
+    RSQ_BRKT  shift, and go to state 108
+
+    addop  go to state 85
 
 
 state 102
-	funcCallExpr : ID LPAREN argList RPAREN .  (66)
 
-	.  reduce 66
+   45 expression: expression . relop addExpr
+   69 argList: expression .
+
+    OPER_LT   shift, and go to state 75
+    OPER_GT   shift, and go to state 76
+    OPER_GTE  shift, and go to state 77
+    OPER_LTE  shift, and go to state 78
+    OPER_EQ   shift, and go to state 79
+    OPER_NEQ  shift, and go to state 80
+
+    $default  reduce using rule 69 (argList)
+
+    relop  go to state 82
 
 
 state 103
-	argList : argList COMMA . expression  (69)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	LPAREN  shift 47
-	.  error
+   67 funcCallExpr: ID LPAREN $@7 argList . RPAREN
+   70 argList: argList . COMMA expression
 
-	var  goto 67
-	expression  goto 109
-	addExpr  goto 57
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    RPAREN  shift, and go to state 109
+    COMMA   shift, and go to state 110
 
 
 state 104
-	condStmt : KWD_IF LPAREN expression RPAREN . statement  (36)
-	condStmt : KWD_IF LPAREN expression RPAREN . statement KWD_ELSE statement  (37)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	KWD_IF  shift 43
-	KWD_WHILE  shift 44
-	KWD_RETURN  shift 45
-	LCRLY_BRKT  shift 46
-	LPAREN  shift 47
-	.  error
+   36 condStmt: KWD_IF LPAREN expression RPAREN . statement
+   37         | KWD_IF LPAREN expression RPAREN . statement KWD_ELSE statement
 
-	statement  goto 110
-	compoundStmt  goto 50
-	assignStmt  goto 51
-	condStmt  goto 52
-	loopStmt  goto 53
-	returnStmt  goto 54
-	var  goto 55
-	expression  goto 56
-	addExpr  goto 57
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    ID          shift, and go to state 40
+    INTCONST    shift, and go to state 41
+    CHARCONST   shift, and go to state 42
+    STRCONST    shift, and go to state 43
+    KWD_IF      shift, and go to state 44
+    KWD_WHILE   shift, and go to state 45
+    KWD_RETURN  shift, and go to state 46
+    LCRLY_BRKT  shift, and go to state 47
+    LPAREN      shift, and go to state 48
+
+    statement     go to state 111
+    compoundStmt  go to state 51
+    assignStmt    go to state 52
+    condStmt      go to state 53
+    loopStmt      go to state 54
+    returnStmt    go to state 55
+    var           go to state 56
+    expression    go to state 57
+    addExpr       go to state 58
+    term          go to state 59
+    factor        go to state 60
+    funcCallExpr  go to state 61
 
 
 state 105
-	loopStmt : KWD_WHILE LPAREN expression RPAREN . statement  (38)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	KWD_IF  shift 43
-	KWD_WHILE  shift 44
-	KWD_RETURN  shift 45
-	LCRLY_BRKT  shift 46
-	LPAREN  shift 47
-	.  error
+   38 loopStmt: KWD_WHILE LPAREN expression RPAREN . statement
 
-	statement  goto 111
-	compoundStmt  goto 50
-	assignStmt  goto 51
-	condStmt  goto 52
-	loopStmt  goto 53
-	returnStmt  goto 54
-	var  goto 55
-	expression  goto 56
-	addExpr  goto 57
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    ID          shift, and go to state 40
+    INTCONST    shift, and go to state 41
+    CHARCONST   shift, and go to state 42
+    STRCONST    shift, and go to state 43
+    KWD_IF      shift, and go to state 44
+    KWD_WHILE   shift, and go to state 45
+    KWD_RETURN  shift, and go to state 46
+    LCRLY_BRKT  shift, and go to state 47
+    LPAREN      shift, and go to state 48
+
+    statement     go to state 112
+    compoundStmt  go to state 51
+    assignStmt    go to state 52
+    condStmt      go to state 53
+    loopStmt      go to state 54
+    returnStmt    go to state 55
+    var           go to state 56
+    expression    go to state 57
+    addExpr       go to state 58
+    term          go to state 59
+    factor        go to state 60
+    funcCallExpr  go to state 61
 
 
 state 106
-	compoundStmt : LCRLY_BRKT $$4 statementList $$5 . RCRLY_BRKT  (33)
 
-	RCRLY_BRKT  shift 112
-	.  error
+   33 compoundStmt: LCRLY_BRKT $@4 statementList $@5 . RCRLY_BRKT
+
+    RCRLY_BRKT  shift, and go to state 113
 
 
 state 107
-	assignStmt : var OPER_ASGN expression SEMICLN .  (34)
 
-	.  reduce 34
+   34 assignStmt: var OPER_ASGN expression SEMICLN .
+
+    $default  reduce using rule 34 (assignStmt)
 
 
 state 108
-	var : ID LSQ_BRKT $$6 addExpr RSQ_BRKT .  (43)
 
-	.  reduce 43
+   43 var: ID LSQ_BRKT $@6 addExpr RSQ_BRKT .
+
+    $default  reduce using rule 43 (var)
 
 
 state 109
-	expression : expression . relop addExpr  (45)
-	argList : argList COMMA expression .  (69)
 
-	OPER_LT  shift 74
-	OPER_GT  shift 75
-	OPER_GTE  shift 76
-	OPER_LTE  shift 77
-	OPER_EQ  shift 78
-	OPER_NEQ  shift 79
-	RPAREN  reduce 69
-	COMMA  reduce 69
+   67 funcCallExpr: ID LPAREN $@7 argList RPAREN .
 
-	relop  goto 81
+    $default  reduce using rule 67 (funcCallExpr)
 
 
 state 110
-	condStmt : KWD_IF LPAREN expression RPAREN statement .  (36)
-	condStmt : KWD_IF LPAREN expression RPAREN statement . KWD_ELSE statement  (37)
 
-	KWD_ELSE  shift 113
-	ID  reduce 36
-	INTCONST  reduce 36
-	CHARCONST  reduce 36
-	STRCONST  reduce 36
-	KWD_IF  reduce 36
-	KWD_WHILE  reduce 36
-	KWD_RETURN  reduce 36
-	LCRLY_BRKT  reduce 36
-	RCRLY_BRKT  reduce 36
-	LPAREN  reduce 36
+   70 argList: argList COMMA . expression
+
+    ID         shift, and go to state 40
+    INTCONST   shift, and go to state 41
+    CHARCONST  shift, and go to state 42
+    STRCONST   shift, and go to state 43
+    LPAREN     shift, and go to state 48
+
+    var           go to state 68
+    expression    go to state 114
+    addExpr       go to state 58
+    term          go to state 59
+    factor        go to state 60
+    funcCallExpr  go to state 61
 
 
 state 111
-	loopStmt : KWD_WHILE LPAREN expression RPAREN statement .  (38)
 
-	.  reduce 38
+   36 condStmt: KWD_IF LPAREN expression RPAREN statement .
+   37         | KWD_IF LPAREN expression RPAREN statement . KWD_ELSE statement
+
+    KWD_ELSE  shift, and go to state 115
+
+    $default  reduce using rule 36 (condStmt)
 
 
 state 112
-	compoundStmt : LCRLY_BRKT $$4 statementList $$5 RCRLY_BRKT .  (33)
 
-	.  reduce 33
+   38 loopStmt: KWD_WHILE LPAREN expression RPAREN statement .
+
+    $default  reduce using rule 38 (loopStmt)
 
 
 state 113
-	condStmt : KWD_IF LPAREN expression RPAREN statement KWD_ELSE . statement  (37)
 
-	ID  shift 39
-	INTCONST  shift 40
-	CHARCONST  shift 41
-	STRCONST  shift 42
-	KWD_IF  shift 43
-	KWD_WHILE  shift 44
-	KWD_RETURN  shift 45
-	LCRLY_BRKT  shift 46
-	LPAREN  shift 47
-	.  error
+   33 compoundStmt: LCRLY_BRKT $@4 statementList $@5 RCRLY_BRKT .
 
-	statement  goto 114
-	compoundStmt  goto 50
-	assignStmt  goto 51
-	condStmt  goto 52
-	loopStmt  goto 53
-	returnStmt  goto 54
-	var  goto 55
-	expression  goto 56
-	addExpr  goto 57
-	term  goto 58
-	factor  goto 59
-	funcCallExpr  goto 60
+    $default  reduce using rule 33 (compoundStmt)
 
 
 state 114
-	condStmt : KWD_IF LPAREN expression RPAREN statement KWD_ELSE statement .  (37)
 
-	.  reduce 37
+   45 expression: expression . relop addExpr
+   70 argList: argList COMMA expression .
+
+    OPER_LT   shift, and go to state 75
+    OPER_GT   shift, and go to state 76
+    OPER_GTE  shift, and go to state 77
+    OPER_LTE  shift, and go to state 78
+    OPER_EQ   shift, and go to state 79
+    OPER_NEQ  shift, and go to state 80
+
+    $default  reduce using rule 70 (argList)
+
+    relop  go to state 82
 
 
-36 terminals, 34 nonterminals
-70 grammar rules, 115 states
+state 115
+
+   37 condStmt: KWD_IF LPAREN expression RPAREN statement KWD_ELSE . statement
+
+    ID          shift, and go to state 40
+    INTCONST    shift, and go to state 41
+    CHARCONST   shift, and go to state 42
+    STRCONST    shift, and go to state 43
+    KWD_IF      shift, and go to state 44
+    KWD_WHILE   shift, and go to state 45
+    KWD_RETURN  shift, and go to state 46
+    LCRLY_BRKT  shift, and go to state 47
+    LPAREN      shift, and go to state 48
+
+    statement     go to state 116
+    compoundStmt  go to state 51
+    assignStmt    go to state 52
+    condStmt      go to state 53
+    loopStmt      go to state 54
+    returnStmt    go to state 55
+    var           go to state 56
+    expression    go to state 57
+    addExpr       go to state 58
+    term          go to state 59
+    factor        go to state 60
+    funcCallExpr  go to state 61
+
+
+state 116
+
+   37 condStmt: KWD_IF LPAREN expression RPAREN statement KWD_ELSE statement .
+
+    $default  reduce using rule 37 (condStmt)

@@ -4,7 +4,7 @@
 #include "hash.h"
 
 
- 
+
 int yylineno;
 
 enum nodeTypes {PROGRAM, DECLLIST, DECL, VARDECL, TYPESPECIFIER, FUNDECL, FORMALDECLLIST, FORMALDECL, FUNBODY, LOCALDECLLIST, STATEMENTLIST, STATEMENT, COMPOUNDSTMT, ASSIGNSTMT, CONDSTMT, LOOPSTMT, RETURNSTMT, VAR, EXPRESSION, RELOP, ADDEXPR, ADDOP, TERM, MULOP, FACTOR, FUNCCALLEXPR, ARGLIST, IDENTIFIER, INTCONSTANT, CHARCONSTANT, STRCONSTANT};
@@ -17,7 +17,7 @@ int count = 0;
 int saveyylval;
 
 
-tree *AST; 
+tree *AST;
 %}
 
 %union
@@ -28,39 +28,39 @@ tree *AST;
 }
 
 
-%token <val> ID         
-%token <val> INTCONST   
-%token <val> CHARCONST  
-%token <val> STRCONST   
-%token <val> KWD_IF     
-%token <val> KWD_ELSE   
-%token <val> KWD_WHILE  
-%token <val> KWD_INT    
-%token <val> KWD_STRING 
-%token <val> KWD_CHAR   
-%token <val> KWD_RETURN 
-%token <val> KWD_VOID   
-%token <val> OPER_ADD    
-%token <val> OPER_SUB    
-%token <val> OPER_MUL    
-%token <val> OPER_DIV    
-%token <val> OPER_LT     
-%token <val> OPER_GT     
-%token <val> OPER_GTE    
-%token <val> OPER_LTE    
-%token <val> OPER_EQ     
-%token <val> OPER_NEQ    
-%token <val> OPER_ASGN    
-%token <val> LSQ_BRKT    
-%token <val> RSQ_BRKT    
-%token <val> LCRLY_BRKT  
-%token <val> RCRLY_BRKT  
-%token <val> LPAREN     
-%token <val> RPAREN     
-%token <val> COMMA      
-%token <val> SEMICLN    
-%token <val> ILLEGAL_TOK 
-%token <val> ERROR  
+%token <val> ID
+%token <val> INTCONST
+%token <val> CHARCONST
+%token <val> STRCONST
+%token <val> KWD_IF
+%token <val> KWD_ELSE
+%token <val> KWD_WHILE
+%token <val> KWD_INT
+%token <val> KWD_STRING
+%token <val> KWD_CHAR
+%token <val> KWD_RETURN
+%token <val> KWD_VOID
+%token <val> OPER_ADD
+%token <val> OPER_SUB
+%token <val> OPER_MUL
+%token <val> OPER_DIV
+%token <val> OPER_LT
+%token <val> OPER_GT
+%token <val> OPER_GTE
+%token <val> OPER_LTE
+%token <val> OPER_EQ
+%token <val> OPER_NEQ
+%token <val> OPER_ASGN
+%token <val> LSQ_BRKT
+%token <val> RSQ_BRKT
+%token <val> LCRLY_BRKT
+%token <val> RCRLY_BRKT
+%token <val> LPAREN
+%token <val> RPAREN
+%token <val> COMMA
+%token <val> SEMICLN
+%token <val> ILLEGAL_TOK
+%token <val> ERROR
 
 %nonassoc XIF
 %nonassoc KWD_ELSE
@@ -78,7 +78,7 @@ program           :  declList
                         AST = progNode;
                      }
                   ;
-            
+
 declList          :  decl
                      {
                         tree *declListNode = maketree(DECLLIST);
@@ -93,7 +93,7 @@ declList          :  decl
                         $$ = declListNode;
                      }
                   ;
-         
+
 decl              :  varDecl
                      {
                         tree *declNode = maketree(DECL);
@@ -107,7 +107,7 @@ decl              :  varDecl
                         $$ = declNode;
                      }
                   ;
-            
+
 varDecl           :  typeSpecifier ID LSQ_BRKT {saveyylval = yylval.val;} INTCONST RSQ_BRKT SEMICLN
                      {
                         stupdate(saveyylval, $1->val, scope);
@@ -127,7 +127,7 @@ varDecl           :  typeSpecifier ID LSQ_BRKT {saveyylval = yylval.val;} INTCON
                         $$ = declNode;
                      }
                   ;
-            
+
 typeSpecifier     :  KWD_INT
                      {
                         $$ = maketreeWithVal(TYPESPECIFIER, INT);
@@ -181,9 +181,9 @@ formalDeclList    :  formalDecl
                         $$ = formalDeclListNode;
                      }
                   ;
-                  
+
 formalDecl        :  typeSpecifier ID
-                     {  
+                     {
 						stupdate(yylval.val, $1->val, scope);
                         tree *declNode = maketree(FORMALDECL);
                         addChild(declNode, $1);
@@ -199,7 +199,7 @@ formalDecl        :  typeSpecifier ID
                         $$ = declNode;
                      }
                   ;
-                  
+
 funBody           :  LCRLY_BRKT  localDeclList statementList RCRLY_BRKT
                      {
                         tree *funBodyNode = maketree(FUNBODY);
@@ -209,7 +209,7 @@ funBody           :  LCRLY_BRKT  localDeclList statementList RCRLY_BRKT
 						$$ = funBodyNode;
                      }
                   ;
-                     
+
 localDeclList     :
                      {
                         tree *localDeclListNode = maketree(LOCALDECLLIST);
@@ -223,7 +223,7 @@ localDeclList     :
                         $$ = localDeclListNode;
                      }
                   ;
-                  
+
 statementList     :
                      {
                         tree *statementNode = maketree(STATEMENTLIST);
@@ -237,7 +237,7 @@ statementList     :
                         $$ = statementNode;
                      }
                   ;
-                  
+
 statement         :  compoundStmt
                      {
                         $$ = $1;
@@ -261,7 +261,7 @@ statement         :  compoundStmt
                   ;
 
 compoundStmt      : LCRLY_BRKT {scope++;} statementList {scope--;} RCRLY_BRKT
-                     {  
+                     {
                         tree *compoundStmtNode = maketree(COMPOUNDSTMT);
                         addChild(compoundStmtNode, $3);
                         $$ = compoundStmtNode;
@@ -291,7 +291,7 @@ condStmt          :  KWD_IF LPAREN expression RPAREN statement %prec XIF
                         addChild(condNode, $5);
                         $$ = condNode;
                      }
-                  |  KWD_IF LPAREN expression RPAREN statement KWD_ELSE statement 
+                  |  KWD_IF LPAREN expression RPAREN statement KWD_ELSE statement
                      {
                         tree *condNode = maketree(CONDSTMT);
                         addChild(condNode, $3);
@@ -299,7 +299,7 @@ condStmt          :  KWD_IF LPAREN expression RPAREN statement %prec XIF
                         addChild(condNode, $7);
                         $$ = condNode;
                      }
-                  ;   
+                  ;
 
 loopStmt          :  KWD_WHILE LPAREN expression RPAREN statement
                      {
@@ -309,7 +309,7 @@ loopStmt          :  KWD_WHILE LPAREN expression RPAREN statement
                         $$ = loopNode;
                      }
                   ;
-                  
+
 returnStmt        :  KWD_RETURN SEMICLN
                      {
                         tree *returnStmtNode = maketree(RETURNSTMT);
@@ -321,7 +321,7 @@ returnStmt        :  KWD_RETURN SEMICLN
                         addChild(returnNode, $2);
                         $$ = returnNode;
                      }
-                  ;                                    
+                  ;
 
 var               :  ID
                      {
@@ -335,7 +335,7 @@ var               :  ID
                         $$ = varNode;
                      }
                   ;
-                  
+
 expression        :  addExpr
                      {
                         tree *expNode = maketree(EXPRESSION);
@@ -351,7 +351,7 @@ expression        :  addExpr
                         $$ = expNode;
                      }
                   ;
-                  
+
 relop             :  OPER_GTE
                      {
                         $$ = maketreeWithVal(RELOP,GTE);
@@ -364,7 +364,7 @@ relop             :  OPER_GTE
                      {
                         $$ = maketreeWithVal(RELOP,LT);
                      }
-                  |  OPER_LTE                     
+                  |  OPER_LTE
                      {
                         $$ = maketreeWithVal(RELOP,LTE);
                      }
@@ -423,7 +423,7 @@ mulop             :  OPER_MUL
                   |  OPER_DIV
                      {
                         $$ = maketreeWithVal(MULOP,DIV);
-                     } 
+                     }
                   ;
 
 factor            :  LPAREN expression RPAREN
@@ -451,11 +451,11 @@ factor            :  LPAREN expression RPAREN
                         $$ = maketreeWithVal(STRCONSTANT, yylval.val);
                      }
 
-funcCallExpr      :  ID LPAREN argList RPAREN
+funcCallExpr      :  ID LPAREN {saveyylval = yylval.val;} argList RPAREN
                      {
                         tree *funcCall = maketree(FUNCCALLEXPR);
-                        addChild(funcCall, maketreeWithVal(IDENTIFIER, yylval.val));
-                        addChild(funcCall, $3);
+                        addChild(funcCall, maketreeWithVal(IDENTIFIER, saveyylval));
+                        addChild(funcCall, $4);
                         $$ = funcCall;
                      }
                   |  ID LPAREN RPAREN
@@ -465,7 +465,7 @@ funcCallExpr      :  ID LPAREN argList RPAREN
                         $$ = funcCall;
                      }
                   ;
-                  
+
 argList           :  expression
                      {
                         tree *argList = maketree(ARGLIST);
